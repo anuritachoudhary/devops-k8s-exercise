@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-init
+  namespace: devops
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: psql
+          image: postgres:16-alpine
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "Waiting for Postgres...";
+              for i in $(seq 1 60); do
+                psql -h postgres-postgresql.devops.svc.cluster.local -U devopsuser -d devopsdb -c "SELECT 1" && break || true
+                sleep 2
+              done
+              echo "Creating table...";
+              psql -h postgres-postgresql.devops.svc.cluster.local -U devopsuser -d devopsdb -c "CREATE TABLE IF NOT EXISTS time_logs (id SERIAL PRIMARY KEY, logged_at TIMESTAMP NOT NULL DEFAULT NOW());"

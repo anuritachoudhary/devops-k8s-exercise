@@ -1,0 +1,70 @@
+{
+  "uid": "postgres-local",
+  "title": "PostgreSQL (Local K8s) \u2014 CPU / Memory / Throughput",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Postgres Pod CPU (cores)",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "-"
+      },
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\\\"devops\\\",pod=~\\\"postgres-postgresql-.*\\\",container!=\\\"\\\"}[5m]))",
+          "legendFormat": "cpu"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Postgres Pod Memory (bytes)",
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "-"
+      },
+      "targets": [
+        {
+          "expr": "sum(container_memory_working_set_bytes{namespace=\\\"devops\\\",pod=~\\\"postgres-postgresql-.*\\\",container!=\\\"\\\"})",
+          "legendFormat": "memory"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "PostgreSQL Throughput (xact/sec)",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 24,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "-"
+      },
+      "targets": [
+        {
+          "expr": "sum(rate(pg_stat_database_xact_commit{datname=\\\"devopsdb\\\"}[5m]) + rate(pg_stat_database_xact_rollback{datname=\\\"devopsdb\\\"}[5m]))",
+          "legendFormat": "xact/sec"
+        }
+      ]
+    }
+  ]
+}

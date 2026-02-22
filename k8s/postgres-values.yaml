@@ -1,0 +1,17 @@
+auth:
+  username: devopsuser
+  database: devopsdb
+  existingSecret: postgres-secret
+  secretKeys:
+    adminPasswordKey: postgres-password
+
+primary:
+  persistence:
+    enabled: true
+    size: 2Gi
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
