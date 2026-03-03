@@ -3,11 +3,10 @@ kind: Ingress
 metadata:
   name: grafana
   namespace: devops
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
-    - host: grafana.__DOMAIN__
+    - host: grafana.local
       http:
         paths:
           - path: /

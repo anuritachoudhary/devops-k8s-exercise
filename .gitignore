@@ -4,3 +4,6 @@ terraform/*.tfstate*
 terraform/.terraform.lock.hcl
 .DS_Store
 Thumbs.db
+
+pwd.txt
+pwd.b64

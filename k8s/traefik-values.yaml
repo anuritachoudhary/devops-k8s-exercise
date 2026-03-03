@@ -1,6 +1,12 @@
 deployment:
   replicas: 1
 
+# ✅ Ensure IngressClass exists and is default
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+  name: traefik
+
 service:
   type: NodePort
 
@@ -10,14 +16,24 @@ ports:
     nodePort: 30080
     expose:
       default: true
+
   websecure:
     port: 443
     nodePort: 30443
     expose:
       default: true
 
+  # ✅ Dashboard/API port (needed for traefik-dashboard ingress)
+  traefik:
+    port: 9000
+    expose:
+      default: true
+    # nodePort optional (auto-assign). If you want fixed:
+    # nodePort: 30090
+
 additionalArguments:
   - "--api.dashboard=true"
   - "--providers.kubernetesingress=true"
   - "--entrypoints.web.address=:80"
   - "--entrypoints.websecure.address=:443"
+  - "--entrypoints.traefik.address=:9000"

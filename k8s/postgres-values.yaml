@@ -4,6 +4,7 @@ auth:
   existingSecret: postgres-secret
   secretKeys:
     adminPasswordKey: postgres-password
+    userPasswordKey: password
 
 primary:
   persistence:

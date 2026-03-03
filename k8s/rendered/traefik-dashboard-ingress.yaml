@@ -3,11 +3,10 @@ kind: Ingress
 metadata:
   name: traefik-dashboard
   namespace: devops
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
-    - host: traefik.192.168.49.2.nip.io
+    - host: traefik.local
       http:
         paths:
           - path: /
@@ -17,4 +16,3 @@ spec:
                 name: traefik
                 port:
                   number: 9000
-

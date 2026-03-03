@@ -3,11 +3,10 @@ kind: Ingress
 metadata:
   name: traefik-dashboard
   namespace: devops
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: traefik
   rules:
-    - host: traefik.__DOMAIN__
+    - host: traefik.local
       http:
         paths:
           - path: /
